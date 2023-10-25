@@ -7,11 +7,15 @@ import {GrFormSearch} from 'react-icons/gr'
 const Home = () => {
     const [searchMovie, setsearchMovie] = useState('')
     const [movies, setmovies] = useState([])
+    const [tv, settv] = useState([])
     const [select, setselect] = useState('day')
     // console.log(select);
     const key = '82b6a6612f5c7ebddd0064847db7ed24'
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
     let endpoint2 =  `https://api.themoviedb.org/3/trending/movie/week?language=en-US&api_key=${key}`
+    let endpoint3 = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${key}`
+    let endpoint4 = `https://api.themoviedb.org/3/trending/tv/week?language=en-US&api_key=${key}`
+
     const imgBaseUrl = "https://image.tmdb.org/t/p";
 
     if(select !== 'day'){
@@ -23,10 +27,26 @@ const Home = () => {
         .catch((error)=>{
             console.log(error);
         })
+        axios.get(endpoint4)
+        .then((response)=>{
+            settv(response.data.results);
+            // console.log(tv);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
     }else{
         axios.get(endpoint)
             .then((response)=>{
                 setmovies(response.data.results);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+            axios.get(endpoint3)
+            .then((response)=>{
+                settv(response.data.results);
+                // console.log(tv);
             })
             .catch((error)=>{
                 console.log(error);
@@ -66,12 +86,24 @@ const Home = () => {
                 </div>
             </section>
             <section>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-2'>
+                <h1>Movies</h1>
+                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         movies.map((item,i)=>(
-                            <div key={i} className='border border-2'>
-                                <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[90px]' alt="" />
-                                <div>{item.title}</div>
+                            <div key={i} className=''>
+                                <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
+                                <div className='text-center'>{item.title}</div>
+                            </div>
+                        ))
+                    }
+                </div>
+                <h1 className='my-10'>TV Series</h1>
+                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                    {
+                        tv.map((items,i)=>(
+                            <div key={i} className=''>
+                                <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
+                                <div className='text-center'>{items.name}</div>
                             </div>
                         ))
                     }

@@ -9,7 +9,7 @@ import guy from '../assets/Images/guy.jpg'
 const Navbar = () => {
   return (
     <>
-    <div className='sticky w-full top-0 '>
+    <div className='sticky w-full top-0 bg-red-700'>
         <nav className='border border-red-500 flex justify-around py-1'>
         <Link className='mt-2' to="/">Home</Link>
         <div className='flex gap-10 mt-3'>
@@ -17,7 +17,7 @@ const Navbar = () => {
         <Link to="/"><TfiVideoClapper/></Link>
         <Link to="/"><MdOutlinePersonalVideo/></Link>
         </div>
-        <img src={guy} className='rounded-[100%] h-[45px] border border-red-500'  width={47} alt="" />
+        <img src={guy} className='rounded-[100%] h-[45px] border border-black'  width={47} alt="" />
         {/* <div className=''>Image</div> */}
         </nav>
     </div>
