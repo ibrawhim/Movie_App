@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {GrFormSearch} from 'react-icons/gr'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 
@@ -22,6 +22,7 @@ const Home = () => {
     let endpoint6 = `https://api.themoviedb.org/3/search/multi?query=${searchMovie}&include_adult=false&language=en-US&page=1&api_key=${key}`
 
     const imgBaseUrl = "https://image.tmdb.org/t/p";
+    let navigate = useNavigate()
 
     if(select !== 'day'){
         axios.get(endpoint2)
@@ -77,6 +78,11 @@ const Home = () => {
             console.log(error);
         })
     }
+    const detailsPage = (e) => {
+        localStorage.setItem('myId',JSON.stringify(e))
+        navigate('/details')
+        // console.log(e)
+    }
   return (
     <>
         <div className='mt-5 mx-3 lg:mx-5'>
@@ -115,10 +121,11 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         movies.map((item,i)=>(
-                            <Link to='/details' key={i} className=''>
+                            <div onClick={()=>detailsPage(item.id)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
                                 <div className='text-center'>{item.title}</div>
-                            </Link>
+                                {/* <div>{item.id}</div> */}
+                            </div>
                         ))
                     }
                 </div>
