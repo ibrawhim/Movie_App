@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {GrFormSearch} from 'react-icons/gr'
+import { Link } from 'react-router-dom'
 
 
 
@@ -10,7 +11,7 @@ const Home = () => {
     const [tv, settv] = useState([])
     const [discover, setdiscover] = useState([])
     const [select, setselect] = useState('day')
-    const [first, setfirst] = useState(second)
+    const [search, setsearch] = useState([])
     // console.log(select);
     const key = '82b6a6612f5c7ebddd0064847db7ed24'
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -34,22 +35,22 @@ const Home = () => {
         axios.get(endpoint4)
         .then((response)=>{
             settv(response.data.results);
-            // console.log(tv);
         })
         .catch((error)=>{
             console.log(error);
         })
     }else{
         axios.get(endpoint)
-            .then((response)=>{
-                setmovies(response.data.results);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-            axios.get(endpoint3)
-            .then((response)=>{
-                settv(response.data.results);
+        .then((response)=>{
+            setmovies(response.data.results);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        axios.get(endpoint3)
+        .then((response)=>{
+            settv(response.data.results);
+            // console.log(tv);
                 // console.log(tv);
             })
             .catch((error)=>{
@@ -70,8 +71,7 @@ const Home = () => {
     const Search = () => {
         axios.get(endpoint6)
         .then((result)=>{
-            // setmovies(result.data.results)
-            console.log(movies);
+            setsearch(result.data.results)
         })
         .catch((error)=>{
             console.log(error);
@@ -98,14 +98,27 @@ const Home = () => {
                 </div>
             </section>
             <section>
+                <h1>
+                    {search ? 'Result' : ''}
+                </h1>
+                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                    {
+                        search.map((item,i)=>(
+                            <Link to="/details" key={i} className=''>
+                                <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
+                                <div className='text-center'>{item.title}</div>
+                            </Link>
+                        ))
+                    }
+                </div>
                 <h1>Movies</h1>
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         movies.map((item,i)=>(
-                            <div key={i} className=''>
+                            <Link to='/details' key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
                                 <div className='text-center'>{item.title}</div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>
@@ -113,10 +126,10 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         tv.map((items,i)=>(
-                            <div key={i} className=''>
+                            <Link to='/details' key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>
@@ -124,10 +137,10 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         discover.map((items,i)=>(
-                            <div key={i} className=''>
+                            <Link to='/details' key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.original_title}</div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>
