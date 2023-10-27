@@ -84,7 +84,8 @@ const Details = () => {
                 <p>Budget: ${detail.budget}</p>
                 <div>
                   <p>Genre</p>
-                  <div className='flex'>{
+                  <div className='flex'>
+                    {
                       mygenres &&
                       mygenres.map((item,i)=>(
                         <span className='bg-red-700 flex px-2 rounded' key={i}>{item.name}</span>
@@ -93,12 +94,14 @@ const Details = () => {
                   </div>
                   <div>
                     <p>Language</p>
+                    <div className='flex'>
                     {
                       language &&
                       language.map((item,i)=>(
-                        <p className='bg-red-700 flex px-2 rounded' key={i}>{item.name}</p>
+                        <span className='bg-red-700 flex px-2 rounded' key={i}>{item.name}</span>
                       ))
                     }
+                    </div>
                   </div>
                 </div>
                 <div>
