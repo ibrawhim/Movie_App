@@ -12,6 +12,7 @@ const Home = () => {
     const [discover, setdiscover] = useState([])
     const [select, setselect] = useState('day')
     const [search, setsearch] = useState([])
+    const [result, setresult] = useState('')
     // console.log(select);
     const key = '82b6a6612f5c7ebddd0064847db7ed24'
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -73,6 +74,7 @@ const Home = () => {
         axios.get(endpoint6)
         .then((result)=>{
             setsearch(result.data.results)
+            setresult('Results')
             console.log(result.data.results);
         })
         .catch((error)=>{
@@ -90,7 +92,7 @@ const Home = () => {
             <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between'>
                 <div className='flex border border-2 rounded border-black bg-white w-3/4'>
                 <span className='mt-2 mx-2'><GrFormSearch/></span>
-                <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full border border-white py-1'/>
+                <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full focus:outline-none py-1'/>
                 </div>
                 <button onClick={Search} className='bg-red-700  font-bold text-white px-5 rounded'>Search</button>
             </div>
@@ -106,7 +108,7 @@ const Home = () => {
             </section>
             <section>
                 <h1>
-                    {search ? 'Result' : ''}
+                    {result}
                 </h1>
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
