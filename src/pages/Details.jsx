@@ -74,17 +74,17 @@ const Details = () => {
               <div>
                 <div>
                   <p>{detail.original_title}</p>
-                  <p>{detail.tagline}</p>
+                  <p className='text-gray-500'>{detail.tagline}</p>
                 </div>
                 <p>Description</p>
-                <p>{detail.overview}</p>
-                <p>Release Date: {detail.release_date}</p>
-                <p>Status: {detail.status}</p>
-                <p>Duration: {detail.runtime}minutes</p>
-                <p>Budget: ${detail.budget}</p>
+                <p className='text-gray-500'>{detail.overview}</p>
+                <p>Release Date: <span className='text-gray-500'>{detail.release_date}</span></p>
+                <p>Status: <span className='text-gray-500'>{detail.status}</span></p>
+                <p>Duration: <span className='text-gray-500'>{detail.runtime}minutes</span></p>
+                <p>Budget: <span className='text-gray-500'>${detail.budget}</span></p>
                 <div>
                   <p>Genre</p>
-                  <div className='flex'>
+                  <div className='flex gap-2'>
                     {
                       mygenres &&
                       mygenres.map((item,i)=>(
@@ -94,7 +94,7 @@ const Details = () => {
                   </div>
                   <div>
                     <p>Language</p>
-                    <div className='flex'>
+                    <div className='flex gap-2'>
                     {
                       language &&
                       language.map((item,i)=>(
