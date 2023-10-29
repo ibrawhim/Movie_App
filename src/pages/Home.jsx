@@ -73,6 +73,7 @@ const Home = () => {
         axios.get(endpoint6)
         .then((result)=>{
             setsearch(result.data.results)
+            console.log(result.data.results);
         })
         .catch((error)=>{
             console.log(error);
