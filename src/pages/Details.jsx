@@ -66,24 +66,24 @@ const Details = () => {
     <>
       <div>
         <section className='my-10'>
-          <div className='lg:flex gap-5 border border-red-500'>
-            <div className='border lg:w-[55%]'>
+          <div className='lg:flex gap-5'>
+            <div className=' lg:w-[55%]'>
             <img src={`${imgBaseUrl}/original/${detail.poster_path}`} className='lg:h-full img-fluid' alt="" />
             </div>
-            <div className='border lg:pr-20 w-full'>
+            <div className='lg:pr-20 w-full'>
               <div>
                 <div>
                   <p>{detail.original_title}</p>
                   <p className='text-gray-500'>{detail.tagline}</p>
                 </div>
-                <p>Description</p>
+                <p className='my-1'>Description</p>
                 <p className='text-gray-500'>{detail.overview}</p>
-                <p>Release Date: <span className='text-gray-500'>{detail.release_date}</span></p>
-                <p>Status: <span className='text-gray-500'>{detail.status}</span></p>
-                <p>Duration: <span className='text-gray-500'>{detail.runtime}minutes</span></p>
-                <p>Budget: <span className='text-gray-500'>${detail.budget}</span></p>
+                <p className='my-1'>Release Date: <span className='text-gray-500'>{detail.release_date}</span></p>
+                <p className='my-1'>Status: <span className='text-gray-500'>{detail.status}</span></p>
+                <p className='my-1'>Duration: <span className='text-gray-500'>{detail.runtime}minutes</span></p>
+                <p className='my-1'>Budget: <span className='text-gray-500'>${detail.budget}</span></p>
                 <div>
-                  <p>Genre</p>
+                  <p className='my-2 border-b-4 border-red-700 w-[40px]'>Genre</p>
                   <div className='flex gap-2'>
                     {
                       mygenres &&
@@ -93,7 +93,7 @@ const Details = () => {
                      }
                   </div>
                   <div>
-                    <p>Language</p>
+                    <p className='my-2 border-b-4 border-red-700 w-[60px]'>Language</p>
                     <div className='flex gap-2'>
                     {
                       language &&
@@ -104,8 +104,8 @@ const Details = () => {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <p>Casts</p>
+                <div className='my-2'>
+                  <p className='my-2 border-b-4 border-red-700 w-[35px]'>Casts</p>
                   <div className='grid lg:grid-cols-4 grid-cols-3 gap-2'>
 
                     {
