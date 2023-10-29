@@ -37,6 +37,7 @@ const Home = () => {
         axios.get(endpoint4)
         .then((response)=>{
             settv(response.data.results);
+            console.log(response.data.results);
         })
         .catch((error)=>{
             console.log(error);
@@ -75,7 +76,7 @@ const Home = () => {
         .then((result)=>{
             setsearch(result.data.results)
             setresult('Results')
-            console.log(result.data.results);
+            // console.log(result.data.results);
         })
         .catch((error)=>{
             console.log(error);
@@ -113,10 +114,10 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         search.map((item,i)=>(
-                            <Link to="/details" key={i} className=''>
+                            <div onClick={()=>detailsPage(item.id)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
-                                <div className='text-center'>{item.title}</div>
-                            </Link>
+                                <div className='text-center'>{item.title ? item.title : item.name}</div>
+                            </div>
                         ))
                     }
                 </div>
@@ -136,10 +137,10 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         tv.map((items,i)=>(
-                            <Link to='/details' key={i} className=''>
+                            <div  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>
-                            </Link>
+                            </div>
                         ))
                     }
                 </div>
