@@ -80,9 +80,9 @@ const Home = () => {
             console.log(error);
         })
     }
-    const detailsPage = (e,f) => {
-        if (f) {
-            localStorage.setItem('myId',JSON.stringify({e,f}))
+    const detailsPage = (e,mediaType) => {
+        if (mediaType) {
+            localStorage.setItem('myId',JSON.stringify({e,mediaType}))
             navigate('/details')
         }else {
             localStorage.setItem('myId',JSON.stringify(e))

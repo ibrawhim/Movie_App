@@ -11,9 +11,12 @@ const Details = () => {
   let url = `https://api.themoviedb.org/3/movie/${myId}?language=en-US',&api_key=${key}`
   let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1',&api_key=${key}`
   let url3 = `https://api.themoviedb.org/3/movie/${myId}/credits?language=en-US&api_key=${key}`
-  let tvUrl = `https://api.themoviedb.org/3/tv/${myId}?language=en-US&api_key=${key}`
+  let url4 = `https://api.themoviedb.org/3/tv/${myId.e}/credits?language=en-US&api_key=${key}`
+  let tvUrl = `https://api.themoviedb.org/3/tv/${myId.e}?language=en-US&api_key=${key}`
+  let url6 = `https://api.themoviedb.org/3/tv/${myId.e}/similar?language=en-US&page=1&api_key=${key}`
 
   const [detail, setdetail] = useState([])
+  const [tvdetails, settvdetails] = useState('')
   const [mygenres, setmygenres] = useState([])
   const [similar, setsimilar] = useState([])
   const [language, setlanguage] = useState([])
@@ -21,21 +24,23 @@ const Details = () => {
   const imgBaseUrl = "https://image.tmdb.org/t/p";
 
   
-    axios.get(url)
+    
+
+    useEffect(() => {
+      // axios.get(tvUrl)
+      axios.get(myId.mediaType? (tvUrl) : `${url}`)
     .then((response)=>{
-      setdetail(response.data)
-      setlanguage(detail.spoken_languages)
-      setmygenres(detail.genres)
+        setdetail(response.data)
+        setlanguage(detail.spoken_languages)
+        setmygenres(detail.genres)
       // console.log(detail.genres)
     })
     .catch((error)=>{
       console.log(error);
     })
-
-    useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get(url2); 
+          const response = await axios.get(myId.mediaType? (url6) : `${url2}`); 
           // console.log(response.data);
           setsimilar(response.data.results); 
           // console.log(similar);
@@ -47,7 +52,7 @@ const Details = () => {
       }
       const fetchData2 = async () => {
         try {
-          const response = await axios.get(url3); 
+          const response = await axios.get(myId.mediaType? (url4) : `${url3}`); 
           setcasts(response.data.cast); 
           // console.log(casts);
           // setLoading(false);
