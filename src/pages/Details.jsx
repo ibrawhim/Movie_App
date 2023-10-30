@@ -11,6 +11,7 @@ const Details = () => {
   let url = `https://api.themoviedb.org/3/movie/${myId}?language=en-US',&api_key=${key}`
   let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1',&api_key=${key}`
   let url3 = `https://api.themoviedb.org/3/movie/${myId}/credits?language=en-US&api_key=${key}`
+  let tvUrl = `https://api.themoviedb.org/3/tv/${myId}?language=en-US&api_key=${key}`
 
   const [detail, setdetail] = useState([])
   const [mygenres, setmygenres] = useState([])
@@ -19,7 +20,7 @@ const Details = () => {
   const [casts, setcasts] = useState('')
   const imgBaseUrl = "https://image.tmdb.org/t/p";
 
-
+  
     axios.get(url)
     .then((response)=>{
       setdetail(response.data)

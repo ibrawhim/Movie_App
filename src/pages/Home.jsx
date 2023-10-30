@@ -37,7 +37,6 @@ const Home = () => {
         axios.get(endpoint4)
         .then((response)=>{
             settv(response.data.results);
-            console.log(response.data.results);
         })
         .catch((error)=>{
             console.log(error);
@@ -53,8 +52,7 @@ const Home = () => {
         axios.get(endpoint3)
         .then((response)=>{
             settv(response.data.results);
-            // console.log(tv);
-                // console.log(tv);
+            // console.log(response.data.results);
             })
             .catch((error)=>{
                 console.log(error);
@@ -82,10 +80,16 @@ const Home = () => {
             console.log(error);
         })
     }
-    const detailsPage = (e) => {
-        localStorage.setItem('myId',JSON.stringify(e))
-        navigate('/details')
-        // console.log(e)
+    const detailsPage = (e,f) => {
+        if (f) {
+            localStorage.setItem('myId',JSON.stringify({e,f}))
+            navigate('/details')
+        }else {
+            localStorage.setItem('myId',JSON.stringify(e))
+            navigate('/details')
+            // console.log(e)
+        }
+
     }
   return (
     <>
@@ -115,7 +119,7 @@ const Home = () => {
                     {
                         search.map((item,i)=>(
                             <div onClick={()=>detailsPage(item.id)} key={i} className=''>
-                                <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
+                                <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="Image not found" />
                                 <div className='text-center'>{item.title ? item.title : item.name}</div>
                             </div>
                         ))
@@ -137,7 +141,7 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         tv.map((items,i)=>(
-                            <div  key={i} className=''>
+                            <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>
                             </div>
