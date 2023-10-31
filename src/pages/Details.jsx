@@ -9,14 +9,13 @@ const Details = () => {
   const myId = JSON.parse(localStorage.getItem('myId'))
   // console.log(myId);
   let url = `https://api.themoviedb.org/3/movie/${myId}?language=en-US',&api_key=${key}`
-  let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1',&api_key=${key}`
+  let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1&api_key=${key}`
   let url3 = `https://api.themoviedb.org/3/movie/${myId}/credits?language=en-US&api_key=${key}`
   let url4 = `https://api.themoviedb.org/3/tv/${myId.e}/credits?language=en-US&api_key=${key}`
   let tvUrl = `https://api.themoviedb.org/3/tv/${myId.e}?language=en-US&api_key=${key}`
   let url6 = `https://api.themoviedb.org/3/tv/${myId.e}/similar?language=en-US&page=1&api_key=${key}`
 
   const [detail, setdetail] = useState([])
-  const [tvdetails, settvdetails] = useState('')
   const [mygenres, setmygenres] = useState([])
   const [similar, setsimilar] = useState([])
   const [language, setlanguage] = useState([])
@@ -27,13 +26,13 @@ const Details = () => {
     
 
     useEffect(() => {
-      // axios.get(tvUrl)
       axios.get(myId.mediaType? (tvUrl) : `${url}`)
     .then((response)=>{
         setdetail(response.data)
         setlanguage(detail.spoken_languages)
         setmygenres(detail.genres)
       // console.log(detail.genres)
+      // console.log(language);
     })
     .catch((error)=>{
       console.log(error);
@@ -64,7 +63,7 @@ const Details = () => {
        
         fetchData()
         fetchData2()
-    }, [])
+    }, [mygenres, language])
     
   
   
@@ -87,7 +86,7 @@ const Details = () => {
                 <p className='my-1'>{myId.mediaType? `First-Aired:` : `Release Date:`} <span className='text-gray-500'>{myId.mediaType? `${detail.first_air_date}`: `${detail.release_date}`}</span></p>
                 <p className='my-1'>Status: <span className='text-gray-500'>{detail.status}</span></p>
                 <p className='my-1'>{!myId.mediaType?  `Duration:` : `Number of Episodes:` } <span className='text-gray-500'>{!myId.mediaType? `${detail.runtime}minutes`: `${detail.number_of_episodes}` }</span></p>
-                <p className='my-1'>{!myId.mediaType? `Budget:` : `Number of Seasons:`} <span className='text-gray-500'>{!myId.mediaType? `${detail.budget}`: `${detail.number_of_seasons}`}</span></p>
+                <p className='my-1'>{!myId.mediaType? `Budget:` : `Number of Seasons:`} <span className='text-gray-500'>{!myId.mediaType? `$${detail.budget}`: `${detail.number_of_seasons}`}</span></p>
                 <div>
                   <p className='my-2 border-b-4 border-red-700 w-[40px]'>Genre</p>
                   <div className='flex gap-2'>
@@ -128,13 +127,13 @@ const Details = () => {
           </div> 
         </section>
         <section>
-          <h1>Similar Movies</h1>
-          <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+          <h1 className='font-bold my-2 mx-5'>Similar Movies</h1>
+          <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
              {
               similar.map((item,i)=>(
                 <Link to="/details" key={i} className=''>
                     <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
-                    <div className='text-center'>{item.title}</div>
+                    <div className='text-center'>{!myId.mediaType? `${item.title}`: `${item.name}`}</div>
                 </Link>
               ))
              }

@@ -73,15 +73,15 @@ const Home = () => {
         axios.get(endpoint6)
         .then((result)=>{
             setsearch(result.data.results)
+            console.log(result.data.results);
             setresult('Results')
-            // console.log(result.data.results);
         })
         .catch((error)=>{
             console.log(error);
         })
     }
     const detailsPage = (e,mediaType) => {
-        if (mediaType) {
+        if (mediaType=='tv') {
             localStorage.setItem('myId',JSON.stringify({e,mediaType}))
             navigate('/details')
         }else {
@@ -118,7 +118,7 @@ const Home = () => {
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         search.map((item,i)=>(
-                            <div onClick={()=>detailsPage(item.id)} key={i} className=''>
+                            <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="Image not found" />
                                 <div className='text-center'>{item.title ? item.title : item.name}</div>
                             </div>
@@ -148,14 +148,14 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-10'>Discover</h1>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                <h1 className='my-10 mx-5'>Discover</h1>
+                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
                     {
                         discover.map((items,i)=>(
-                            <Link to='/details' key={i} className=''>
+                            <div onClick={()=>detailsPage(items.id)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.original_title}</div>
-                            </Link>
+                            </div>
                         ))
                     }
                 </div>
