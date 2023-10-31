@@ -79,14 +79,14 @@ const Details = () => {
             <div className='lg:pr-20 w-full'>
               <div>
                 <div>
-                  <p>{detail.original_title}</p>
+                  <p>{myId.mediaType? `${detail.name}` : `${detail.original_title}`}</p>
                   <p className='text-gray-500'>{detail.tagline}</p>
                 </div>
                 <p className='my-1'>Description</p>
                 <p className='text-gray-500'>{detail.overview}</p>
-                <p className='my-1'>Release Date: <span className='text-gray-500'>{detail.release_date}</span></p>
+                <p className='my-1'>{myId.mediaType? `First-Aired:` : `Release Date:`} <span className='text-gray-500'>{myId.mediaType? `${detail.first_air_date}`: `${detail.release_date}`}</span></p>
                 <p className='my-1'>Status: <span className='text-gray-500'>{detail.status}</span></p>
-                <p className='my-1'>Duration: <span className='text-gray-500'>{detail.runtime}minutes</span></p>
+                <p className='my-1'>{!myId.mediaType?  `Duration:` : `Episodes:` } <span className='text-gray-500'>{!myId.mediaType? `${detail.runtime}minutes`: `${detail.number_of_episodes}` }</span></p>
                 <p className='my-1'>Budget: <span className='text-gray-500'>${detail.budget}</span></p>
                 <div>
                   <p className='my-2 border-b-4 border-red-700 w-[40px]'>Genre</p>
