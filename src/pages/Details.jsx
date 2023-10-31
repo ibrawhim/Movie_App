@@ -42,7 +42,7 @@ const Details = () => {
           const response = await axios.get(myId.mediaType? (url6) : `${url2}`); 
           // console.log(response.data);
           setsimilar(response.data.results); 
-          // console.log(similar);
+          console.log(similar);
           // setLoading(false);
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -65,7 +65,17 @@ const Details = () => {
         fetchData2()
     }, [mygenres, language])
     
-  
+    const detailsPage = (e,mediaType) => {
+      if (mediaType=='tv') {
+          localStorage.setItem('myId',JSON.stringify({e,mediaType}))
+          navigate('/details')
+      }else {
+          localStorage.setItem('myId',JSON.stringify(e))
+          navigate('/details')
+          // console.log(e)
+      }
+
+  }
   
   return (
     <>
@@ -131,13 +141,19 @@ const Details = () => {
           <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
              {
               similar.map((item,i)=>(
-                <Link to="/details" key={i} className=''>
+                <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
                     <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
                     <div className='text-center'>{!myId.mediaType? `${item.title}`: `${item.name}`}</div>
-                </Link>
+                </div>
               ))
              }
           </div>
+          <div className='flex justify-center gap-2 bg-red-700'>
+              <button>previous</button>
+              <button>1</button>
+              <button>2</button>
+              <button>Next</button>
+             </div>
         </section>
       </div>
     </>
