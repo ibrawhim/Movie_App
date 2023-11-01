@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {GrFormSearch} from 'react-icons/gr'
 import { Link, useNavigate } from 'react-router-dom'
 import loaderImg from '../assets/loaderImg.jpg'
-
+import myLoad from '../assets/loaderImg.jpg'
 
 
 const Home = () => {
@@ -16,6 +16,7 @@ const Home = () => {
     const [result, setresult] = useState('')
     const [empty, setempty] = useState('')
     const [loader, setloader] = useState(false)
+    const [myloader, setMyLoader] = useState(true)
     // console.log(select);
     const key = import.meta.env.VITE_APP_MY_KEY
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -34,7 +35,8 @@ const Home = () => {
         axios.get(endpoint2)
         .then((response)=>{
             setmovies(response.data.results);
-            
+            setMyLoader(false)
+            // console.log(movies);
         })
         .catch((error)=>{
             console.log(error);
@@ -50,6 +52,7 @@ const Home = () => {
         axios.get(endpoint)
         .then((response)=>{
             setmovies(response.data.results);
+            setMyLoader(false)
         })
         .catch((error)=>{
             console.log(error);
@@ -57,6 +60,7 @@ const Home = () => {
         axios.get(endpoint3)
         .then((response)=>{
             settv(response.data.results);
+            setMyLoader(false)
             // console.log(response.data.results);
             })
             .catch((error)=>{
@@ -66,12 +70,13 @@ const Home = () => {
     axios.get(endpoint5)
     .then((response)=>{
         setdiscover(response.data.results)
+        setMyLoader(false)
     })
     .catch((error)=>{
         console.log(error);
     })
 
-}, [])
+}, [movies, tv, discover])
 
 
     const Search = () => {
@@ -113,17 +118,17 @@ const Home = () => {
     }
   return (
     <>
-        <div className='mt-5 mx-3 lg:mx-5'>
-            <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between mx-5'>
+        <div className='mt-5 mx-5 lg:mx-10'>
+            <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between'>
                 <div className='flex border border-2 rounded border-black bg-white w-3/4'>
                 <span className='mt-2 mx-2'><GrFormSearch/></span>
                 <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full focus:outline-none py-1'/>
                 </div>
                 <button onClick={Search} className='bg-red-700  font-bold text-white lg:px-5 px-8  rounded'>{loader?<img  src={loaderImg} width={20} alt="" />: 'Search'}</button>
             </div>
-                <small className='text-red-700'>{empty}</small>
+                <small className='text-red-700 font-bold'>{empty}</small>
 
-            <section className='my-10 mx-5'>
+            <section className='my-10'>
                 <div className='flex'>
                     <h1 className='me-4'>Trending</h1>
                     <select className='text-black' name="" id="" onChange={(e)=>setselect(e.target.value)} value={select.day}>
@@ -138,7 +143,7 @@ const Home = () => {
                 </h1>
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
                     {
-
+                        
                         search.map((item,i)=>(
                             <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="Image not found" />
@@ -147,9 +152,10 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-10 mx-5 text-xl'>Movies</h1>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                <h1 className='my-5  text-xl font-bold'>Movies</h1>
+                <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full' }>
                     {
+                        myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
                         movies.map((item,i)=>(
                             <div onClick={()=>detailsPage(item.id)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
@@ -159,9 +165,10 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-10 mx-5'>TV Series</h1>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                <h1 className='my-5  text-xl font-bold'>TV Series</h1>
+                <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
                     {
+                        myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
                         tv.map((items,i)=>(
                             <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
@@ -170,9 +177,10 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-10 mx-5'>Discover</h1>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
+                <h1 className='my-5 text-xl font-bold'>Discover</h1>
+                <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
                     {
+                        myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
                         discover.map((items,i)=>(
                             <div onClick={()=>detailsPage(items.id)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
