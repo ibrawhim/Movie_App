@@ -13,6 +13,7 @@ const Home = () => {
     const [select, setselect] = useState('day')
     const [search, setsearch] = useState([])
     const [result, setresult] = useState('')
+    const [empty, setempty] = useState('')
     // console.log(select);
     const key = '82b6a6612f5c7ebddd0064847db7ed24'
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -69,16 +70,27 @@ const Home = () => {
 
 
 
-    const Search = () => {
+    const Search = () => { 
+        if (searchMovie == ""){
+            setempty('Field is Empty!!!')
+        }else {
         axios.get(endpoint6)
         .then((result)=>{
-            setsearch(result.data.results)
-            console.log(result.data.results);
-            setresult('Results')
+            if(result.data.results.length < 1){
+                setempty('Not found')
+            }
+            else {
+                setresult('Results')
+                setsearch(result.data.results)
+                setempty('')
+                // console.log(result.data.results);
+            }
+            
         })
         .catch((error)=>{
             console.log(error);
         })
+        }
     }
     const detailsPage = (e,mediaType) => {
         if (mediaType=='tv') {
@@ -101,6 +113,7 @@ const Home = () => {
                 </div>
                 <button onClick={Search} className='bg-red-700  font-bold text-white px-5 rounded'>Search</button>
             </div>
+                <small className='text-red-700'>{empty}</small>
 
             <section className='my-10'>
                 <div className='flex'>

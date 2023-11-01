@@ -42,7 +42,7 @@ const Details = () => {
           const response = await axios.get(myId.mediaType? (url6) : `${url2}`); 
           // console.log(response.data);
           setsimilar(response.data.results); 
-          console.log(similar);
+          // console.log(similar);
           // setLoading(false);
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -148,7 +148,7 @@ const Details = () => {
               ))
              }
           </div>
-          <div className='flex justify-center gap-2 bg-red-700'>
+          <div className='flex justify-center gap-2 bg-red-700 py-2 my-5 w-full'>
               <button>previous</button>
               <button>1</button>
               <button>2</button>
