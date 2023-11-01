@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {AiOutlineStar} from 'react-icons/ai'
 
 
+
 const Details = () => {
-  const key = '82b6a6612f5c7ebddd0064847db7ed24'
+  const navigate = useNavigate()
+  const key = import.meta.env.VITE_APP_MY_KEY
   const myId = JSON.parse(localStorage.getItem('myId'))
   // console.log(myId);
   let url = `https://api.themoviedb.org/3/movie/${myId}?language=en-US',&api_key=${key}`

@@ -15,7 +15,7 @@ const Home = () => {
     const [result, setresult] = useState('')
     const [empty, setempty] = useState('')
     // console.log(select);
-    const key = '82b6a6612f5c7ebddd0064847db7ed24'
+    const key = import.meta.env.VITE_APP_MY_KEY
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
     let endpoint2 =  `https://api.themoviedb.org/3/trending/movie/week?language=en-US&api_key=${key}`
     let endpoint3 = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${key}`
@@ -111,7 +111,7 @@ const Home = () => {
                 <span className='mt-2 mx-2'><GrFormSearch/></span>
                 <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full focus:outline-none py-1'/>
                 </div>
-                <button onClick={Search} className='bg-red-700  font-bold text-white px-5 rounded'>Search</button>
+                <button onClick={Search} className='bg-red-700  font-bold text-white lg:px-5 px-8  rounded'>Search</button>
             </div>
                 <small className='text-red-700'>{empty}</small>
 
