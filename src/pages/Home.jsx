@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {GrFormSearch} from 'react-icons/gr'
 import { Link, useNavigate } from 'react-router-dom'
+import loaderImg from '../assets/loaderImg.jpg'
 
 
 
@@ -14,6 +15,7 @@ const Home = () => {
     const [search, setsearch] = useState([])
     const [result, setresult] = useState('')
     const [empty, setempty] = useState('')
+    const [loader, setloader] = useState(false)
     // console.log(select);
     const key = import.meta.env.VITE_APP_MY_KEY
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -26,6 +28,8 @@ const Home = () => {
     const imgBaseUrl = "https://image.tmdb.org/t/p";
     let navigate = useNavigate()
 
+
+    useEffect(() => {
     if(select !== 'day'){
         axios.get(endpoint2)
         .then((response)=>{
@@ -67,22 +71,26 @@ const Home = () => {
         console.log(error);
     })
 
+}, [])
 
 
-
-    const Search = () => { 
+    const Search = () => {
+        setloader(true) 
         if (searchMovie == ""){
+            setloader(false)
             setempty('Field is Empty!!!')
         }else {
         axios.get(endpoint6)
         .then((result)=>{
             if(result.data.results.length < 1){
-                setempty('Not found')
+                setempty('Movie or Series not found.')
+                setloader(false)
             }
             else {
                 setresult('Results')
                 setsearch(result.data.results)
                 setempty('')
+                setloader(false)
                 // console.log(result.data.results);
             }
             
@@ -106,16 +114,16 @@ const Home = () => {
   return (
     <>
         <div className='mt-5 mx-3 lg:mx-5'>
-            <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between'>
+            <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between mx-5'>
                 <div className='flex border border-2 rounded border-black bg-white w-3/4'>
                 <span className='mt-2 mx-2'><GrFormSearch/></span>
                 <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full focus:outline-none py-1'/>
                 </div>
-                <button onClick={Search} className='bg-red-700  font-bold text-white lg:px-5 px-8  rounded'>Search</button>
+                <button onClick={Search} className='bg-red-700  font-bold text-white lg:px-5 px-8  rounded'>{loader?<img  src={loaderImg} width={20} alt="" />: 'Search'}</button>
             </div>
                 <small className='text-red-700'>{empty}</small>
 
-            <section className='my-10'>
+            <section className='my-10 mx-5'>
                 <div className='flex'>
                     <h1 className='me-4'>Trending</h1>
                     <select className='text-black' name="" id="" onChange={(e)=>setselect(e.target.value)} value={select.day}>
@@ -128,8 +136,9 @@ const Home = () => {
                 <h1>
                     {result}
                 </h1>
-                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
+                <div className='grid lg:grid-cols-7 grid-cols-3 gap-10 mx-5'>
                     {
+
                         search.map((item,i)=>(
                             <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="Image not found" />
@@ -138,7 +147,7 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1>Movies</h1>
+                <h1 className='my-10 mx-5 text-xl'>Movies</h1>
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         movies.map((item,i)=>(
@@ -150,7 +159,7 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-10'>TV Series</h1>
+                <h1 className='my-10 mx-5'>TV Series</h1>
                 <div className='grid lg:grid-cols-7 grid-cols-3 gap-10'>
                     {
                         tv.map((items,i)=>(
