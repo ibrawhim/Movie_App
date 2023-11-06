@@ -17,6 +17,7 @@ const Home = () => {
     const [empty, setempty] = useState('')
     const [loader, setloader] = useState(false)
     const [myloader, setMyLoader] = useState(true)
+    const [people, setpeople] = useState([])
     // console.log(select);
     const key = import.meta.env.VITE_APP_MY_KEY
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
@@ -25,6 +26,10 @@ const Home = () => {
     // let endpoint4 = `https://api.themoviedb.org/3/trending/tv/week?language=en-US&api_key=${key}`
     let endpoint5 = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${key}`
     let endpoint6 = `https://api.themoviedb.org/3/search/multi?query=${searchMovie}&include_adult=false&language=en-US&page=1&api_key=${key}`
+
+    let endpoint7 = `https://api.themoviedb.org/3/trending/person/week?language=en-US&api_key=${key}`
+    let endpoint8 = `https://api.themoviedb.org/3/trending/person/day?language=en-US&api_key=${key}`
+
     
 
     const imgBaseUrl = "https://image.tmdb.org/t/p";
@@ -45,11 +50,28 @@ const Home = () => {
         axios.get(endpoint3)
         .then((response)=>{
             settopRated(response.data.results);
+            setMyLoader(false)
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        axios.get(endpoint8)
+        .then((response)=>{
+            setpeople(response.data.results);
+            setMyLoader(false)
         })
         .catch((error)=>{
             console.log(error);
         })
     }else{
+        axios.get(endpoint7)
+        .then((response)=>{
+            setpeople(response.data.results);
+            setMyLoader(false)
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
         axios.get(endpoint)
         .then((response)=>{
             setmovies(response.data.results);
@@ -77,7 +99,7 @@ const Home = () => {
         console.log(error);
     })
 
-}, [movies, topRated, discover])
+}, [movies, topRated, key, discover])
 
 
     const Search = () => {
@@ -110,7 +132,11 @@ const Home = () => {
         if (mediaType=='tv') {
             localStorage.setItem('myId',JSON.stringify({e,mediaType}))
             navigate('/details')
-        }else {
+        }else if (mediaType=='person') {
+            localStorage.setItem('myId',JSON.stringify({e,mediaType}))
+            localStorage.setItem('actors',JSON.stringify({people}))
+        }
+        else {
             localStorage.setItem('myId',JSON.stringify(e))
             navigate('/details')
             // console.log(e)
@@ -173,6 +199,18 @@ const Home = () => {
                         topRated.map((items,i)=>(
                             <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
+                                <div className='text-center'>{items.name}</div>
+                            </div>
+                        ))
+                    }
+                </div>
+                <h1 className='my-5 text-xl font-bold'>People</h1>
+                <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
+                    {
+                        myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
+                        people.map((items,i)=>(
+                            <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
+                                <img src={`${imgBaseUrl}/original/${items.profile_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>
                             </div>
                         ))

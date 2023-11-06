@@ -41,6 +41,8 @@ const Similar = () => {
     
   return (
     <>
+        <div className='my-10'>
+        <h1 className='ms-5 my-5 font-bold text-xl'>Similar Movies</h1>
         <div className='grid lg:grid-cols-5 grid-cols-3 gap-16 mx-5'>
         { similar.length > 0 ?
               similar.slice(pageVisited, pageVisited + moviePage).map((item,i)=>(
@@ -66,6 +68,7 @@ const Similar = () => {
         nextLinkClassName="page-link"
         activeClassName="active"
         />
+        </div>
     </>
   )
 }
