@@ -27,7 +27,7 @@ const Home = () => {
     let endpoint6 = `https://api.themoviedb.org/3/search/multi?query=${searchMovie}&include_adult=false&language=en-US&page=1&api_key=${key}`
 
     const imgBaseUrl = "https://image.tmdb.org/t/p";
-    let navigate = useNavigate()
+    let navigate = useNavigate()    
 
 
     useEffect(() => {

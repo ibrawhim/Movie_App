@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {AiOutlineStar} from 'react-icons/ai'
+import Similar from './Similar'
 
 
 
@@ -26,7 +27,8 @@ const Details = () => {
   const [mydata, setMyData] = useState([])
 
   
-    
+  // mySimilar = JSON.parse(localStorage.getItem('similar'))
+  // console.log(mySimilar);
 
     useEffect(() => {
       axios.get(myId.mediaType? (tvUrl) : `${url}`)
@@ -40,6 +42,7 @@ const Details = () => {
     .catch((error)=>{
       console.log(error);
     })
+     
       const fetchData2 = async () => {
         try {
           const response = await axios.get(myId.mediaType? (url4) : `${url3}`); 
@@ -51,30 +54,30 @@ const Details = () => {
           // setLoading(false);
         }
       }
-      const fetchData = async () => {
-        try {
-          const res = await axios.get(myId.mediaType? (url6) : `${url2}`); 
-          setMyData(res.data.results)
-          if (mydata.length>0){
-            const halfLength = Math.ceil(mydata.length / 2);
-            const firstHalfData = mydata.slice(0, halfLength);
-            setFirstsimilar(firstHalfData);
-  
-          }
-          // console.log(response.data);
-          // setsimilar(response.data.results); 
-          // console.log(similar);
-          // setLoading(false);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          // setLoading(false);
-        }
-      }
-      fetchData()
-       
       fetchData2()
-    }, [mygenres, language, firstsimilar,  casts])
+      
+    }, [mygenres, language,  casts])
+    
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(myId.mediaType? (url6) : `${url2}`); 
+        setMyData(res.data.results)
+        if (mydata.length>0){
+          const halfLength = Math.ceil(mydata.length / 2);
+          const firstHalfData = mydata.slice(0, halfLength);
+          setFirstsimilar(firstHalfData);
 
+        }
+        // console.log(response.data);
+        // setsimilar(response.data.results); 
+        // console.log(similar);
+        // setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // setLoading(false);
+      }
+    }
+    fetchData()
     
     
     const detailsPage = (e,mediaType) => {
@@ -91,9 +94,12 @@ const Details = () => {
   const imgBaseUrl = "https://image.tmdb.org/t/p";
 
   const next = () => {
+      // setFirstsimilar('')
       const halfLength = Math.ceil(mydata.length / 2);
       const secondHalfData = mydata.slice(halfLength);
-      setSecondSimilar(secondHalfData);
+      setFirstsimilar(secondHalfData)
+      localStorage.setItem('similar', JSON.stringify(secondHalfData))
+      // console.log(secondHalfData);
   }
   return (
     <>
@@ -101,7 +107,7 @@ const Details = () => {
         <section className='my-10'>
           <div className='lg:flex gap-5'>
             <div className=' lg:w-[55%]'>
-            <img src={`${imgBaseUrl}/original/${detail.poster_path}`} className='lg:h-full img-fluid' alt="" />
+            <img src={`${imgBaseUrl}/original/${detail.poster_path}`} className='lg:h-full img-fluid' alt=""/>
             </div>
             <div className='lg:pr-20 w-full'>
               <div>
@@ -154,27 +160,29 @@ const Details = () => {
             </div>
           </div> 
         </section>
-        <section>
+        {/* <section>
           <h1 className='font-bold my-2 mx-5'>Similar Movies</h1>
           <div className='grid lg:grid-cols-5 grid-cols-3 gap-16 mx-5'>
              {
-                firstsimilar.map((item,i)=>(
+              firstsimilar.map((item,i)=>(
                 <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
                     <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
                     <div className='text-center'>{!myId.mediaType? `${item.title}`: `${item.name}`}</div>
                 </div>
-              ))
+              )) 
+              //   firstsimilar.map((item,i)=>(
+              //   <div onClick={()=>detailsPage(item.id, item.media_type)} key={i} className=''>
+              //       <img src={`${imgBaseUrl}/original/${item.poster_path}`} className='w-full h-[70px] hover:scale-110 rounded' alt="" />
+              //       <div className='text-center'>{!myId.mediaType? `${item.title}`: `${item.name}`}</div>
+              //   </div>
+              // ))
              }
           </div>
-        </section>
-             <button className='mx-auto bg-red-500 flex gap-2 p-2 my-10 rounded'>
-              <span>previous</span>
-              <span>1</span>
-              {/* <span onClick={nextTwo}>2</span> */}
-              <span onClick={next}>Next</span> 
-             </button>
+        </section> */}
+            
 
       </div>
+      <Similar/>
     </>
   )
 }
