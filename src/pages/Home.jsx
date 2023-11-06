@@ -9,7 +9,7 @@ import myLoad from '../assets/loaderImg.jpg'
 const Home = () => {
     const [searchMovie, setsearchMovie] = useState('')
     const [movies, setmovies] = useState([])
-    const [tv, settv] = useState([])
+    const [topRated, settopRated] = useState([])
     const [discover, setdiscover] = useState([])
     const [select, setselect] = useState('day')
     const [search, setsearch] = useState([])
@@ -21,10 +21,11 @@ const Home = () => {
     const key = import.meta.env.VITE_APP_MY_KEY
     let endpoint = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${key}`
     let endpoint2 =  `https://api.themoviedb.org/3/trending/movie/week?language=en-US&api_key=${key}`
-    let endpoint3 = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${key}`
-    let endpoint4 = `https://api.themoviedb.org/3/trending/tv/week?language=en-US&api_key=${key}`
+    let endpoint3 = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=${key}`
+    // let endpoint4 = `https://api.themoviedb.org/3/trending/tv/week?language=en-US&api_key=${key}`
     let endpoint5 = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${key}`
     let endpoint6 = `https://api.themoviedb.org/3/search/multi?query=${searchMovie}&include_adult=false&language=en-US&page=1&api_key=${key}`
+    
 
     const imgBaseUrl = "https://image.tmdb.org/t/p";
     let navigate = useNavigate()    
@@ -41,9 +42,9 @@ const Home = () => {
         .catch((error)=>{
             console.log(error);
         })
-        axios.get(endpoint4)
+        axios.get(endpoint3)
         .then((response)=>{
-            settv(response.data.results);
+            settopRated(response.data.results);
         })
         .catch((error)=>{
             console.log(error);
@@ -59,7 +60,7 @@ const Home = () => {
         })
         axios.get(endpoint3)
         .then((response)=>{
-            settv(response.data.results);
+            settopRated(response.data.results);
             setMyLoader(false)
             // console.log(response.data.results);
             })
@@ -76,7 +77,7 @@ const Home = () => {
         console.log(error);
     })
 
-}, [movies, tv, discover])
+}, [movies, topRated, discover])
 
 
     const Search = () => {
@@ -165,11 +166,11 @@ const Home = () => {
                         ))
                     }
                 </div>
-                <h1 className='my-5  text-xl font-bold'>TV Series</h1>
+                <h1 className='my-5  text-xl font-bold'>Top Rated Movies</h1>
                 <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
                     {
                         myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
-                        tv.map((items,i)=>(
+                        topRated.map((items,i)=>(
                             <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.poster_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>

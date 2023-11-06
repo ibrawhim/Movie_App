@@ -179,7 +179,11 @@ const Details = () => {
              }
           </div>
         </section> */}
-            
+             {/* <button className='mx-auto bg-red-500 flex gap-2 p-2 my-10 rounded'>
+              <span>previous</span>
+              <span>1</span>
+              <span onClick={next}>Next</span> 
+             </button> */}
 
       </div>
       <Similar/>
