@@ -1,15 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Similar = () => {
 
 
-
-    const key = import.meta.env.VITE_APP_MY_KEY
-    const myId = JSON.parse(localStorage.getItem('myId'))
-    let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1&api_key=${key}`
+  const key = import.meta.env.VITE_APP_MY_KEY
+  const myId = JSON.parse(localStorage.getItem('myId'))
+  let url2 = `https://api.themoviedb.org/3/movie/${myId}/similar?language=en-US&page=1&api_key=${key}`
     let url6 = `https://api.themoviedb.org/3/tv/${myId.e}/similar?language=en-US&page=1&api_key=${key}`
 
     const [similar, setsimilar] = useState([])
@@ -36,10 +37,11 @@ const Similar = () => {
     const pageCount = Math.ceil(similar.length / moviePage)
     
     const changePage = ({ selected }) => {
-        setpageNumber(selected);
-      };
+      setpageNumber(selected);
+    };
+    
+    const navigate = useNavigate()
 
-      
       const detailsPage = (e,mediaType,index) => {
         if (mediaType=='tv') {
             localStorage.setItem('myId',JSON.stringify({e,mediaType}))
@@ -51,13 +53,12 @@ const Similar = () => {
         }
         else {
             localStorage.setItem('myId',JSON.stringify(e))
-            navigate('/details')
-            // console.log(e)
+            // navigate('/details')
+          }
+          
         }
-
-    }
-  return (
-    <>
+        return (
+          <>
         <div className='my-10'>
         <h1 className='ms-5 my-5 font-bold text-xl'>Similar Movies</h1>
         <div className='grid lg:grid-cols-5 grid-cols-3 gap-16 mx-5'>
