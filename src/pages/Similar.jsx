@@ -38,7 +38,24 @@ const Similar = () => {
     const changePage = ({ selected }) => {
         setpageNumber(selected);
       };
-    
+
+      
+      const detailsPage = (e,mediaType,index) => {
+        if (mediaType=='tv') {
+            localStorage.setItem('myId',JSON.stringify({e,mediaType}))
+            navigate('/details')
+        }else if (mediaType=='person') {
+            localStorage.setItem('myId',JSON.stringify({e,mediaType}))
+            localStorage.setItem('actors',JSON.stringify({people}))
+            console.log(index);
+        }
+        else {
+            localStorage.setItem('myId',JSON.stringify(e))
+            navigate('/details')
+            // console.log(e)
+        }
+
+    }
   return (
     <>
         <div className='my-10'>

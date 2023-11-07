@@ -99,7 +99,7 @@ const Home = () => {
         console.log(error);
     })
 
-}, [movies, topRated, key, discover])
+}, [])
 
 
     const Search = () => {
