@@ -54,7 +54,7 @@ const Similar = () => {
         }
         return (
           <>
-        <div className='my-10'>
+        <div className='my-10 w-full h-screen'>
         <h1 className='ms-5 my-5 font-bold text-xl'>Similar Movies</h1>
         <div className='grid lg:grid-cols-5 grid-cols-3 gap-16 mx-5'>
         {similar.length > 0 ?
