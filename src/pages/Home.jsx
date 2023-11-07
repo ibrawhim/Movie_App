@@ -128,13 +128,14 @@ const Home = () => {
         })
         }
     }
-    const detailsPage = (e,mediaType) => {
+    const detailsPage = (e,mediaType,index) => {
         if (mediaType=='tv') {
             localStorage.setItem('myId',JSON.stringify({e,mediaType}))
             navigate('/details')
         }else if (mediaType=='person') {
             localStorage.setItem('myId',JSON.stringify({e,mediaType}))
             localStorage.setItem('actors',JSON.stringify({people}))
+            console.log(index);
         }
         else {
             localStorage.setItem('myId',JSON.stringify(e))
@@ -209,7 +210,7 @@ const Home = () => {
                     {
                         myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
                         people.map((items,i)=>(
-                            <div onClick={()=>detailsPage(items.id, items.media_type)}  key={i} className=''>
+                            <div onClick={()=>detailsPage(items.id, items.media_type,i)}  key={i} className=''>
                                 <img src={`${imgBaseUrl}/original/${items.profile_path}`} className='hover:scale-110 rounded w-full h-[70px]' alt="" />
                                 <div className='text-center'>{items.name}</div>
                             </div>
