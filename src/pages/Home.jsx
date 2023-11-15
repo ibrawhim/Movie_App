@@ -190,7 +190,7 @@ const Home = () => {
                     }
                 </div>
                 <h1 className='my-5 text-xl font-bold'>Discover</h1>
-                <div className={myloader? '' :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
+                <div className={myloader? ''  :'grid lg:grid-cols-7 grid-cols-3 gap-10 w-full'}>
                     {
                         myloader ? <div className=' flex justify-center'><img  src={myLoad} width={30} alt="" /></div> :
                         discover.map((items,i)=>(
