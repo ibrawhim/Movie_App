@@ -25,7 +25,7 @@ const Similar = () => {
               setsimilar(response.data.results);
 
             } catch (error) {
-              console.error('Error fetching data:', error);
+              console.error('Error fetching data: ', error);
             }
         }
         fetchData2()
