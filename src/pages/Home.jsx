@@ -83,7 +83,7 @@ const Home = () => {
         console.log(error);
     })
 
-}, [myloader, topRated, movies, discover])
+}, [myloader])
 
 
     const Search = () => {
