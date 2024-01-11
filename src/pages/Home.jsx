@@ -132,7 +132,7 @@ const Home = () => {
     <>
         <div className='mt-5 mx-5 lg:mx-10'>
             <div className='lg:w-1/3 md:w-1/2 w-full flex justify-between'>
-                <div className='flex border border-2 rounded border-black bg-white w-3/4'>
+                <div className='flex  border-2 rounded border-black bg-white w-3/4'>
                 <span className='mt-2 mx-2'><GrFormSearch/></span>
                 <input type="text" onChange={(e) => setsearchMovie(e.target.value)} placeholder='Search Movies or TV Series'  className='text-black w-full focus:outline-none py-1'/>
                 </div>
